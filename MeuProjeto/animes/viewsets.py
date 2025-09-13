@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from .serializers import GeneroSerializer, AnimeSerializer
 from .models import Genero, Anime
+from dateutil.parser import parse
 import requests
 
 class GeneroViewSet(viewsets.ModelViewSet):
@@ -13,9 +14,13 @@ class AnimeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         titulo_enviado = serializer.validated_data['titulo']
+        generos_ids = serializer.validated_data.pop('generos_ids', [])
 
         # Cria o anime com os dados do usuário
         anime = serializer.save()
+
+        if generos_ids:
+             anime.generos.set(generos_ids)
 
         try: 
             response = requests.get(f'https://api.jikan.moe/v4/anime?q={titulo_enviado}')
@@ -25,7 +30,12 @@ class AnimeViewSet(viewsets.ModelViewSet):
 
                     # Atualiza apenas os campos complementares
                     anime.sinopse = anime_info.get('synopsis', '')
-                    anime.data_lancamento = anime_info.get('aired', {}).get('from', None)
+                    data_str = anime_info.get('aired', {}).get('from', None)
+                    if data_str:
+                         #Converte para Ano-Mês-Dia
+                         anime.data_lancamento = parse(data_str).date().isoformat()
+                    else:
+                         anime.data_lancamento = ""
                     anime.save()
 
         except requests.RequestException:

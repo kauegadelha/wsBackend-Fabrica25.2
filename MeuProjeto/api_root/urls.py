@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from animes.viewsets import AnimeViewSet, GeneroViewSet
+from .views import custom_api_root # importa a view customizada
 
 router = routers.DefaultRouter()
-router.register(r'animes', AnimeViewSet)
 router.register(r'generos', GeneroViewSet)
+router.register(r'animes', AnimeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', custom_api_root, name = 'api-root'), # root customizado
     path('', include(router.urls)),  # rota raiz da API já com Browsable API
 ]
 
