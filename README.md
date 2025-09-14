@@ -46,6 +46,14 @@
        * No Linux/macOS, rode: source venv/bin/activate.
 - 5. Instale as dependências do projeto com: pip install -r requirements.txt.
 - 6. Crie o banco de dados e aplique as migrações com: python manage.py migrate.
-(Opcional) Para criar um superusuário (admin), execute: python manage.py createsuperuser. Em seguida, insira o nome de usuário (ex.: admin), e-mail (ex.: admin@admin.com
+* (Opcional) Para criar um superusuário (admin), execute: python manage.py createsuperuser. Em seguida, insira o nome de usuário (ex.: admin), e-mail (ex.: admin@admin.com
 ) e senha (ex.: admin).
 - 7. Para rodar o servidor, utilize: python manage.py runserver.
+
+## Recomendação na experiência da API
+- 1. Ao rodar o servidor, adicione primeiro o gênero. 
+- 2. Depois adicione o anime, colocando o título (campo obrigatório) e selecionando o gênero criado.
+
+* Exemplo:
+- Criar gênero: Action.
+- Criar anime: Naruto, selecionar Action.
