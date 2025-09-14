@@ -28,5 +28,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', custom_api_root, name = 'api-root'), # root customizado
     path('', include(router.urls)),  # rota raiz da API já com Browsable API
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
